@@ -21,11 +21,13 @@ spec:
       - name: wil-playground
         image: wil42/playground:v1
         ports:
-        - containerPort: 8888
+        - containerPort: 8080
 
 ---
 kind: Service
 apiVersion: v1
+data:
+  server.insecure: "true"
 metadata:
   name: wil-service
   namespace: dev
@@ -34,7 +36,7 @@ spec:
   selector:
     app: wil-playground
   ports:
-  - port: 8888
+  - port: 8080
     targetPort: 8888
     protocol: TCP
 
