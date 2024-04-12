@@ -28,6 +28,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: wil-service
+  namespace: dev
 spec:
   selector:
     app: wil-playground
