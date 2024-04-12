@@ -2,7 +2,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: wil-deployment
+  name: wil-playground
   namespace: dev
   labels:
     app: wil-playground
@@ -37,35 +37,35 @@ spec:
     targetPort: 8888
     protocol: TCP
 
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: wil-service
-  namespace: dev
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: wil-service
+#   namespace: dev
 
----
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  namespace: dev
-  name: wil-role
-rules:
-- apiGroups: [""]
-  resources: ["pods"]
-  verbs: ["get", "watch", "list"]
+# ---
+# kind: Role
+# apiVersion: rbac.authorization.k8s.io/v1
+# metadata:
+#   namespace: dev
+#   name: wil-role
+# rules:
+# - apiGroups: [""]
+#   resources: ["pods"]
+#   verbs: ["get", "watch", "list"]
 
----
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: wil-role-binding
-  namespace: dev
-subjects:
-- kind: ServiceAccount
-  name: wil-service
-  namespace: dev
-roleRef:
-  kind: Role
-  name: wil-role
-  apiGroup: rbac.authorization.k8s.io
+# ---
+# kind: RoleBinding
+# apiVersion: rbac.authorization.k8s.io/v1
+# metadata:
+#   name: wil-role-binding
+#   namespace: dev
+# subjects:
+# - kind: ServiceAccount
+#   name: wil-service
+#   namespace: dev
+# roleRef:
+#   kind: Role
+#   name: wil-role
+#   apiGroup: rbac.authorization.k8s.io
