@@ -16,7 +16,6 @@ spec:
       labels:
         app: wil-playground
     spec:
-      serviceAccountName: wil-service
       containers:
       - name: wil-playground
         image: wil42/playground:v1
@@ -35,3 +34,36 @@ spec:
   - port: 8080
     targetPort: 8888
     protocol: TCP
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: wil-service
+  namespace: dev
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: dev
+  name: wil-role
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: wil-role-binding
+  namespace: dev
+subjects:
+- kind: ServiceAccount
+  name: wil-service
+  namespace: dev
+roleRef:
+  kind: Role
+  name: wil-role
+  apiGroup: rbac.authorization.k8s.io
