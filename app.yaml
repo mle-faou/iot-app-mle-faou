@@ -16,6 +16,7 @@ spec:
       labels:
         app: wil-playground
     spec:
+      serviceAccountName: wil-service
       containers:
       - name: wil-playground
         image: wil42/playground:v1
