@@ -1,8 +1,10 @@
----
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: wil-playground
+  name: will-playground
+  namespace: dev
+  labels:
+    app: will-playground
 spec:
   replicas: 1
   selector:
@@ -15,30 +17,27 @@ spec:
     spec:
       serviceAccountName: wil-service
       containers:
-      - name: wil-playground
-        image: wil42/playground:v1
-        ports:
-        - containerPort: 8888
+        - name: wil-playground
+          image: wil42/playground:v1
+          ports:
+          - containerPort: 8888
 
 ---
-kind: Service
 apiVersion: v1
-data:
-  server.insecure: "true"
+kind: Service
 metadata:
-  name: wil-playground
-  labels:
-    app: wil-playground
+  name: wil-service
+  namespace: dev
 spec:
-  type: NodePort
+  # type: NodePort
   selector:
     app: wil-playground
   ports:
-  - name: 8888-8888
-    nodePort: 30080
+    # nodePort: 30080 # 30000-32767
     port: 8888
-    protocol: TCP
     targetPort: 8888
+    protocol: TCP
+  type: LoadBalancer
 
 # ---
 # apiVersion: v1
